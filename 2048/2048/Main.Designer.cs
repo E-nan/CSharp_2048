@@ -35,8 +35,11 @@
             this.tsb_resize = new System.Windows.Forms.ToolStripButton();
             this.tsb_hide = new System.Windows.Forms.ToolStripButton();
             this.tlp_numberBoard = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.tsl_main.SuspendLayout();
             this.ts_topBar.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tsl_main
@@ -45,6 +48,7 @@
             this.tsl_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tsl_main.Controls.Add(this.ts_topBar, 0, 0);
             this.tsl_main.Controls.Add(this.tlp_numberBoard, 0, 2);
+            this.tsl_main.Controls.Add(this.panel1, 0, 1);
             this.tsl_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tsl_main.Location = new System.Drawing.Point(0, 0);
             this.tsl_main.Name = "tsl_main";
@@ -57,6 +61,7 @@
             // 
             // ts_topBar
             // 
+            this.ts_topBar.AllowDrop = true;
             this.ts_topBar.BackColor = System.Drawing.SystemColors.Highlight;
             this.ts_topBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ts_topBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -69,6 +74,9 @@
             this.ts_topBar.Size = new System.Drawing.Size(473, 25);
             this.ts_topBar.TabIndex = 0;
             this.ts_topBar.Text = "toolStrip1";
+            this.ts_topBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ts_topBar_MouseDown);
+            this.ts_topBar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ts_topBar_MouseMove);
+            this.ts_topBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ts_topBar_MouseUp);
             // 
             // tsb_exit
             // 
@@ -105,24 +113,44 @@
             // 
             // tlp_numberBoard
             // 
+            this.tlp_numberBoard.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
             this.tlp_numberBoard.ColumnCount = 4;
             this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_numberBoard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_numberBoard.Location = new System.Drawing.Point(3, 185);
+            this.tlp_numberBoard.Location = new System.Drawing.Point(3, 186);
             this.tlp_numberBoard.Name = "tlp_numberBoard";
             this.tlp_numberBoard.RowCount = 4;
             this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_numberBoard.Size = new System.Drawing.Size(467, 486);
+            this.tlp_numberBoard.Size = new System.Drawing.Size(467, 485);
             this.tlp_numberBoard.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 28);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(467, 152);
+            this.panel1.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(389, 126);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "start";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(473, 674);
@@ -140,6 +168,7 @@
             this.tsl_main.PerformLayout();
             this.ts_topBar.ResumeLayout(false);
             this.ts_topBar.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -152,6 +181,8 @@
         private System.Windows.Forms.ToolStripButton tsb_resize;
         private System.Windows.Forms.ToolStripButton tsb_hide;
         private System.Windows.Forms.TableLayoutPanel tlp_numberBoard;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

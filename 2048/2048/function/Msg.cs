@@ -29,9 +29,9 @@ namespace _2048.function
             MessageBox.Show(text, "ex", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
-        public static void Question(string text)
+        public static DialogResult Question(string text)
         {
-            MessageBox.Show(text, "질문", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            return MessageBox.Show(text, "질문", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
         }
     }
 }
