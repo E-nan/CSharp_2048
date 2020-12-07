@@ -60,11 +60,19 @@ namespace _2048
         /// <returns></returns>
         private bool CreateRandomBlock()
         {
-            var randomLocation = new Random().Next(0, 4);
-            var randomLocation1 = new Random().Next(0, 4);
-            var btn = new Button() { Text = randomLocation.ToString(), Dock = DockStyle.Fill };
+            Point blockLocation;
+
+            while (true)
+            {
+                blockLocation = new Point(new Random().Next(0, 4), new Random().Next(0, 4));
+
+                if (CheckNumberPanel(blockLocation))
+                    break;
+            }            
+
+            var btn = new Button() { Text = "2", Dock = DockStyle.Fill };
             tlp_numberBoard.Controls.Add(btn);
-            tlp_numberBoard.SetCellPosition(btn, new TableLayoutPanelCellPosition(randomLocation, randomLocation1));
+            tlp_numberBoard.SetCellPosition(btn, new TableLayoutPanelCellPosition(blockLocation.X, blockLocation.Y));
             return true;
         }
 
@@ -72,10 +80,14 @@ namespace _2048
         /// 넘버패널이 존재하는지 확인하는 메서드
         /// </summary>
         /// <returns></returns>
-        private bool CheckNumberPanel()
+        private bool CheckNumberPanel(Point point)
         {
+            var block = tlp_numberBoard.GetControlFromPosition(point.X, point.Y);
 
-            return true;
+            if (block is null)
+                return true;
+            else
+                return false;
         }
 
         private void Main_KeyDown(object sender, KeyEventArgs e)

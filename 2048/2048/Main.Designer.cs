@@ -37,6 +37,8 @@
             this.tlp_numberBoard = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
+            this.tsl_icon = new System.Windows.Forms.ToolStripLabel();
+            this.tsl_title = new System.Windows.Forms.ToolStripLabel();
             this.tsl_main.SuspendLayout();
             this.ts_topBar.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -64,16 +66,18 @@
             this.ts_topBar.AllowDrop = true;
             this.ts_topBar.BackColor = System.Drawing.SystemColors.Highlight;
             this.ts_topBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ts_topBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ts_topBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsb_exit,
             this.tsb_resize,
-            this.tsb_hide});
+            this.tsb_hide,
+            this.tsl_icon,
+            this.tsl_title});
             this.ts_topBar.Location = new System.Drawing.Point(0, 0);
             this.ts_topBar.Name = "ts_topBar";
             this.ts_topBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ts_topBar.Size = new System.Drawing.Size(473, 25);
             this.ts_topBar.TabIndex = 0;
-            this.ts_topBar.Text = "toolStrip1";
             this.ts_topBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ts_topBar_MouseDown);
             this.ts_topBar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ts_topBar_MouseMove);
             this.ts_topBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ts_topBar_MouseUp);
@@ -147,6 +151,20 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "start";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tsl_icon
+            // 
+            this.tsl_icon.AutoSize = false;
+            this.tsl_icon.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.tsl_icon.Name = "tsl_icon";
+            this.tsl_icon.Size = new System.Drawing.Size(22, 22);
+            // 
+            // tsl_title
+            // 
+            this.tsl_title.Name = "tsl_title";
+            this.tsl_title.Size = new System.Drawing.Size(35, 22);
+            this.tsl_title.Text = "2048";
             // 
             // Main
             // 
@@ -183,6 +201,8 @@
         private System.Windows.Forms.TableLayoutPanel tlp_numberBoard;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripLabel tsl_icon;
+        private System.Windows.Forms.ToolStripLabel tsl_title;
     }
 }
 
