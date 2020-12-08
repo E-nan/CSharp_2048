@@ -14,8 +14,10 @@ namespace _2048
     public partial class Main : Form
     {
         // 마우스 이벤트 관련 전역변수
-        private bool mouseDown;
+        private bool isMouseDown;
         private Point lastLocation;
+        // 폼 이전크기, 최대화 관련 전역변수
+        private bool isFormMaximized;
 
         public Main()
         {
@@ -32,7 +34,7 @@ namespace _2048
         /// </summary>
         private void HideForm()
         {
-
+            this.WindowState = FormWindowState.Minimized;
         }
 
         /// <summary>
@@ -40,7 +42,16 @@ namespace _2048
         /// </summary>
         private void ResizeForm()
         {
+            if (!isFormMaximized)
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
 
+            isFormMaximized = !isFormMaximized;
         }
 
         /// <summary>
@@ -117,7 +128,7 @@ namespace _2048
 
         private void ts_topBar_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseDown = true;
+            isMouseDown = true;
             lastLocation = e.Location;
         }
 
@@ -125,7 +136,7 @@ namespace _2048
         // 폼의 위치가 마우스 움직임에 따라서 X, Y 값을 계산하고 Update
         private void ts_topBar_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouseDown)
+            if (isMouseDown)
             {
                 this.Location = new Point(
                     (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
@@ -136,7 +147,7 @@ namespace _2048
 
         private void ts_topBar_MouseUp(object sender, MouseEventArgs e)
         {
-            mouseDown = false;
+            isMouseDown = false;
         }
     }
 }
