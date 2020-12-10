@@ -1,4 +1,4 @@
-﻿namespace _2048
+﻿namespace CSharp_2048
 {
     partial class Main
     {
@@ -34,11 +34,11 @@
             this.tsb_exit = new System.Windows.Forms.ToolStripButton();
             this.tsb_resize = new System.Windows.Forms.ToolStripButton();
             this.tsb_hide = new System.Windows.Forms.ToolStripButton();
+            this.tsl_icon = new System.Windows.Forms.ToolStripLabel();
+            this.tsl_title = new System.Windows.Forms.ToolStripLabel();
             this.tlp_numberBoard = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
-            this.tsl_icon = new System.Windows.Forms.ToolStripLabel();
-            this.tsl_title = new System.Windows.Forms.ToolStripLabel();
             this.tsl_main.SuspendLayout();
             this.ts_topBar.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -53,6 +53,7 @@
             this.tsl_main.Controls.Add(this.panel1, 0, 1);
             this.tsl_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tsl_main.Location = new System.Drawing.Point(0, 0);
+            this.tsl_main.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tsl_main.Name = "tsl_main";
             this.tsl_main.RowCount = 3;
             this.tsl_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
@@ -115,44 +116,6 @@
             this.tsb_hide.Text = "toolStripButton3";
             this.tsb_hide.Click += new System.EventHandler(this.tsb_hide_Click);
             // 
-            // tlp_numberBoard
-            // 
-            this.tlp_numberBoard.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
-            this.tlp_numberBoard.ColumnCount = 4;
-            this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_numberBoard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_numberBoard.Location = new System.Drawing.Point(3, 186);
-            this.tlp_numberBoard.Name = "tlp_numberBoard";
-            this.tlp_numberBoard.RowCount = 4;
-            this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_numberBoard.Size = new System.Drawing.Size(467, 485);
-            this.tlp_numberBoard.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 28);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(467, 152);
-            this.panel1.TabIndex = 2;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(389, 126);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "start";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // tsl_icon
             // 
             this.tsl_icon.AutoSize = false;
@@ -166,15 +129,57 @@
             this.tsl_title.Size = new System.Drawing.Size(35, 22);
             this.tsl_title.Text = "2048";
             // 
+            // tlp_numberBoard
+            // 
+            this.tlp_numberBoard.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
+            this.tlp_numberBoard.ColumnCount = 4;
+            this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_numberBoard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_numberBoard.Location = new System.Drawing.Point(3, 187);
+            this.tlp_numberBoard.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tlp_numberBoard.Name = "tlp_numberBoard";
+            this.tlp_numberBoard.RowCount = 4;
+            this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_numberBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_numberBoard.Size = new System.Drawing.Size(467, 483);
+            this.tlp_numberBoard.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 29);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(467, 150);
+            this.panel1.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(383, 111);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 29);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "start";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Main
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(473, 674);
             this.Controls.Add(this.tsl_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Main";

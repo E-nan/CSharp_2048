@@ -1,4 +1,4 @@
-﻿using _2048.function;
+﻿using CSharp_2048.function;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace _2048
+namespace CSharp_2048
 {
     public partial class Main : Form
     {
@@ -42,7 +42,7 @@ namespace _2048
 
         private void Main_Load(object sender, EventArgs e)
         {
-
+            MoveBlock();
         }
 
         /// <summary>
@@ -83,7 +83,32 @@ namespace _2048
 
         private void MoveBlock()
         {
+            string[] words = new string[]
+{
+                // index from start    index from end
+    "The",      // 0                   ^9
+    "quick",    // 1                   ^8
+    "brown",    // 2                   ^7
+    "fox",      // 3                   ^6
+    "jumped",   // 4                   ^5
+    "over",     // 5                   ^4
+    "the",      // 6                   ^3
+    "lazy",     // 7                   ^2
+    "dog"       // 8                   ^1
+};              // 9 (or words.Length) ^0
 
+            string[] allWords = words[..]; // contains "The" through "dog".
+            string[] firstPhrase = words[..4]; // contains "The" through "fox"
+            string[] lastPhrase = words[6..]; // contains "the, "lazy" and "dog"
+            foreach (var word in allWords)
+                Console.Write($"< {word} >");
+            Console.WriteLine();
+            foreach (var word in firstPhrase)
+                Console.Write($"< {word} >");
+            Console.WriteLine();
+            foreach (var word in lastPhrase)
+                Console.Write($"< {word} >");
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -184,15 +209,19 @@ namespace _2048
 
         // 마우스 눌린 상태에서
         // 폼의 위치가 마우스 움직임에 따라서 X, Y 값을 계산하고 Update
+        // 마우스를 빠르게 움직이면, 마우스가 폼 밖으로 나간 경우 버그 발생
         private void ts_topBar_MouseMove(object sender, MouseEventArgs e)
         {
             if (isMouseDown)
             {
+                // 방법1
                 Point p1 = new Point(e.X, e.Y);
                 Point p2 = this.PointToScreen(p1);
                 Point p3 = new Point(p2.X - this.lastLocation.X,
                                      p2.Y - this.lastLocation.Y);
                 this.Location = p3;
+
+                // 방법2
                 //this.Location = new Point(
                 //    (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
 
