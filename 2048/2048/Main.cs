@@ -25,6 +25,16 @@ namespace _2048
             public int Y;
         }
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;
+                return handleParam;
+            }
+        }
+
         public Main()
         {
             InitializeComponent();
@@ -107,9 +117,21 @@ namespace _2048
                 Y = emptyBlockLocation[randomIndex].Y 
             };
 
-            numberBlocks[blockLocation.X, blockLocation.Y] = "2";
+            var createNumberPercentage = new Random().Next(1, 101);
+            var createNumberString = string.Empty;
+            if(createNumberPercentage <= 80)
+            {
+                createNumberString = "2";
+                numberBlocks[blockLocation.X, blockLocation.Y] = "2";
+            }
+            else
+            {
+                createNumberString = "4";
+                numberBlocks[blockLocation.X, blockLocation.Y] = "4";
+            }
 
-            var btn = new Button() { Text = "2", Dock = DockStyle.Fill };
+
+            var btn = new Button() { Text = createNumberString, Dock = DockStyle.Fill };
             tlp_numberBoard.Controls.Add(btn);
             tlp_numberBoard.SetCellPosition(btn, new TableLayoutPanelCellPosition(blockLocation.X, blockLocation.Y));
             return true;
@@ -166,8 +188,13 @@ namespace _2048
         {
             if (isMouseDown)
             {
-                this.Location = new Point(
-                    (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
+                Point p1 = new Point(e.X, e.Y);
+                Point p2 = this.PointToScreen(p1);
+                Point p3 = new Point(p2.X - this.lastLocation.X,
+                                     p2.Y - this.lastLocation.Y);
+                this.Location = p3;
+                //this.Location = new Point(
+                //    (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
 
                 this.Update();
             }
