@@ -18,6 +18,12 @@ namespace _2048
         private Point lastLocation;
         // 폼 이전크기, 최대화 관련 전역변수
         private bool isFormMaximized;
+        private string[,] numberBlocks = new string[4,4];
+
+        private struct BlockLocation{
+            public int X;
+            public int Y;
+        }
 
         public Main()
         {
@@ -65,6 +71,11 @@ namespace _2048
             }
         }
 
+        private void MoveBlock()
+        {
+
+        }
+
         /// <summary>
         /// 랜덤한 위치에 블럭을 생성하는 메서드
         /// </summary>
@@ -72,14 +83,31 @@ namespace _2048
         private bool CreateRandomBlock()
         {
             Point blockLocation;
+            List<BlockLocation> emptyBlockLocation = new List<BlockLocation>();
 
-            while (true)
+            for(var i = 0; i < numberBlocks.GetLength(0); i++)
             {
-                blockLocation = new Point(new Random().Next(0, 4), new Random().Next(0, 4));
+                for (var j = 0; j < numberBlocks.GetLength(1); j++)
+                {
+                    if (string.IsNullOrEmpty(numberBlocks[i, j]))
+                    {
+                        emptyBlockLocation.Add(new BlockLocation { X = i, Y = j });
+                    }
+                }
+            }
 
-                if (CheckNumberPanel(blockLocation))
-                    break;
-            }            
+            if(emptyBlockLocation.Count == 0)
+            {
+                return false;
+            }
+
+            var randomIndex = new Random().Next(0, emptyBlockLocation.Count);
+            blockLocation = new Point {
+                X = emptyBlockLocation[randomIndex].X,
+                Y = emptyBlockLocation[randomIndex].Y 
+            };
+
+            numberBlocks[blockLocation.X, blockLocation.Y] = "2";
 
             var btn = new Button() { Text = "2", Dock = DockStyle.Fill };
             tlp_numberBoard.Controls.Add(btn);
@@ -87,23 +115,20 @@ namespace _2048
             return true;
         }
 
-        /// <summary>
-        /// 넘버패널이 존재하는지 확인하는 메서드
-        /// </summary>
-        /// <returns></returns>
-        private bool CheckNumberPanel(Point point)
-        {
-            var block = tlp_numberBoard.GetControlFromPosition(point.X, point.Y);
-
-            if (block is null)
-                return true;
-            else
-                return false;
-        }
-
         private void Main_KeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine(e.KeyValue);
+
+            if (e.KeyCode == Keys.Right)
+            {
+                MoveBlock();
+                CreateRandomBlock();
+            }
+            else if (e.KeyCode == Keys.Left)
+            {
+                MoveBlock();
+                CreateRandomBlock();
+            }
         }
 
         private void tsb_hide_Click(object sender, EventArgs e)
@@ -123,7 +148,10 @@ namespace _2048
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CreateRandomBlock();
+            if (!CreateRandomBlock())
+            {
+                Msg.Information("게임오버");
+            }
         }
 
         private void ts_topBar_MouseDown(object sender, MouseEventArgs e)
