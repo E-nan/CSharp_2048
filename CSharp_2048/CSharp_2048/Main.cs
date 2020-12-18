@@ -129,6 +129,8 @@ namespace CSharp_2048
                                         continue;
                                     }
 
+                                    // 포커스를 합치는게 아닌,
+                                    // 이동하는것을 포커스로 둬야 할듯
                                     if (nextBlock.Equals(block))
                                     {
                                         numberBlocks[xLocation, yLocation] = null;
