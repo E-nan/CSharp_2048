@@ -16,13 +16,26 @@ namespace CSharp_2048
         // 마우스 이벤트 관련 전역변수
         private bool isMouseDown;
         private Point lastLocation;
+
         // 폼 이전크기, 최대화 관련 전역변수
         private bool isFormMaximized;
+
+        // 좌표의 정보를 가지고 있는 전역변수
         private string[,] numberBlocks = new string[4,4];
 
+        // 블럭 위치를 나타내는 구조체
         private struct BlockLocation{
             public int X;
             public int Y;
+        }
+
+        // 상, 하, 좌, 우
+        private enum KeyMoveStatus
+        {
+            UP,
+            DOWN,
+            LEFT,
+            RIGHT
         }
 
         protected override CreateParams CreateParams
@@ -42,7 +55,7 @@ namespace CSharp_2048
 
         private void Main_Load(object sender, EventArgs e)
         {
-            MoveBlock();
+
         }
 
         /// <summary>
@@ -81,34 +94,16 @@ namespace CSharp_2048
             }
         }
 
-        private void MoveBlock()
+        private void MoveBlock(KeyMoveStatus keyMoveStatus)
         {
-            string[] words = new string[]
-{
-                // index from start    index from end
-    "The",      // 0                   ^9
-    "quick",    // 1                   ^8
-    "brown",    // 2                   ^7
-    "fox",      // 3                   ^6
-    "jumped",   // 4                   ^5
-    "over",     // 5                   ^4
-    "the",      // 6                   ^3
-    "lazy",     // 7                   ^2
-    "dog"       // 8                   ^1
-};              // 9 (or words.Length) ^0
-
-            string[] allWords = words[..]; // contains "The" through "dog".
-            string[] firstPhrase = words[..4]; // contains "The" through "fox"
-            string[] lastPhrase = words[6..]; // contains "the, "lazy" and "dog"
-            foreach (var word in allWords)
-                Console.Write($"< {word} >");
-            Console.WriteLine();
-            foreach (var word in firstPhrase)
-                Console.Write($"< {word} >");
-            Console.WriteLine();
-            foreach (var word in lastPhrase)
-                Console.Write($"< {word} >");
-            Console.WriteLine();
+            List<BlockLocation> blockLocations = new List<BlockLocation>();
+            for (var i = 0; i < numberBlocks.GetLength(0); i++)
+            {
+                for (var j = 0; j < numberBlocks.GetLength(1); j++)
+                {
+                    //blockLocations
+                }
+            }
         }
 
         /// <summary>
@@ -160,22 +155,6 @@ namespace CSharp_2048
             tlp_numberBoard.Controls.Add(btn);
             tlp_numberBoard.SetCellPosition(btn, new TableLayoutPanelCellPosition(blockLocation.X, blockLocation.Y));
             return true;
-        }
-
-        private void Main_KeyDown(object sender, KeyEventArgs e)
-        {
-            Console.WriteLine(e.KeyValue);
-
-            if (e.KeyCode == Keys.Right)
-            {
-                MoveBlock();
-                CreateRandomBlock();
-            }
-            else if (e.KeyCode == Keys.Left)
-            {
-                MoveBlock();
-                CreateRandomBlock();
-            }
         }
 
         private void tsb_hide_Click(object sender, EventArgs e)
@@ -232,6 +211,58 @@ namespace CSharp_2048
         private void ts_topBar_MouseUp(object sender, MouseEventArgs e)
         {
             isMouseDown = false;
+        }
+
+        private void Main_KeyDown(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine(e.KeyValue);
+
+            if (e.KeyCode == Keys.Up)
+            {
+                MoveBlock(KeyMoveStatus.UP);
+                CreateRandomBlock();
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                MoveBlock(KeyMoveStatus.DOWN);
+                CreateRandomBlock();
+            }
+            else if (e.KeyCode == Keys.Left)
+            {
+                MoveBlock(KeyMoveStatus.LEFT);
+                CreateRandomBlock();
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                MoveBlock(KeyMoveStatus.RIGHT);
+                CreateRandomBlock();
+            }
+        }
+
+        private void Main_KeyUp(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine(e.KeyValue);
+
+            if (e.KeyCode == Keys.Up)
+            {
+                MoveBlock(KeyMoveStatus.UP);
+                CreateRandomBlock();
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                MoveBlock(KeyMoveStatus.DOWN);
+                CreateRandomBlock();
+            }
+            else if (e.KeyCode == Keys.Left)
+            {
+                MoveBlock(KeyMoveStatus.LEFT);
+                CreateRandomBlock();
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                MoveBlock(KeyMoveStatus.RIGHT);
+                CreateRandomBlock();
+            }
         }
     }
 }

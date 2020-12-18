@@ -131,6 +131,7 @@
             // 
             // tlp_numberBoard
             // 
+            this.tlp_numberBoard.BackColor = System.Drawing.Color.DarkKhaki;
             this.tlp_numberBoard.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
             this.tlp_numberBoard.ColumnCount = 4;
             this.tlp_numberBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -187,6 +188,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Main_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Main_KeyUp);
             this.tsl_main.ResumeLayout(false);
             this.tsl_main.PerformLayout();
             this.ts_topBar.ResumeLayout(false);
