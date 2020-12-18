@@ -13,6 +13,13 @@ namespace CSharp_2048
 {
     public partial class Main : Form
     {
+        // null인 블럭을 대체할 0
+        private const string zero = "0";
+
+        // 숫자 블럭 2, 4
+        private const string two = "2";
+        private const string four = "4";
+
         // 마우스 이벤트 관련 전역변수
         private bool isMouseDown;
         private Point lastLocation;
@@ -94,16 +101,82 @@ namespace CSharp_2048
             }
         }
 
-        private void MoveBlock(KeyMoveStatus keyMoveStatus)
+        private void MoveBlocks(KeyMoveStatus keyMoveStatus)
         {
-            List<BlockLocation> blockLocations = new List<BlockLocation>();
-            for (var i = 0; i < numberBlocks.GetLength(0); i++)
+            switch (keyMoveStatus)
             {
-                for (var j = 0; j < numberBlocks.GetLength(1); j++)
-                {
-                    //blockLocations
-                }
+                case KeyMoveStatus.UP:
+                    {
+                        List<BlockLocation> blockLocations = new List<BlockLocation>();
+                        for (var xLocation = 0; xLocation < numberBlocks.GetLength(0); xLocation++)
+                        {
+                            for (var yLocation = 0; yLocation < numberBlocks.GetLength(1) - 1; yLocation++)
+                            {
+                                var block = int.Parse(numberBlocks[xLocation, yLocation] ?? zero);
+
+                                if(block is 0)
+                                {
+                                    continue;
+                                }
+
+                                for (var nextYLocation = yLocation + 1; nextYLocation < numberBlocks.GetLength(1) - 1; nextYLocation++)
+                                {
+                                    var nextBlock = int.Parse(numberBlocks[xLocation, nextYLocation] ?? zero);
+                                    var value = (nextBlock + block).ToString();
+
+                                    if(nextBlock is 0)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (nextBlock.Equals(block))
+                                    {
+                                        numberBlocks[xLocation, yLocation] = null;
+                                        numberBlocks[xLocation, nextYLocation] = null;
+
+                                        for (var zeroYLocation = 0; zeroYLocation <= yLocation; zeroYLocation++)
+                                        {
+                                            if(numberBlocks[xLocation, zeroYLocation] is null)
+                                            {
+                                                numberBlocks[xLocation, zeroYLocation] = value;
+                                                break;
+                                            }
+                                        }
+
+                                        break;
+                                    }
+                                    
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+
+                case KeyMoveStatus.DOWN:
+                    {
+
+                        break;
+                    }
+
+                case KeyMoveStatus.LEFT:
+                    {
+
+                        break;
+                    }
+
+                case KeyMoveStatus.RIGHT:
+                    {
+
+                        break;
+                    }
             }
+            
+        }
+
+        private void RefreshBlocks()
+        {
+
         }
 
         /// <summary>
@@ -115,13 +188,13 @@ namespace CSharp_2048
             Point blockLocation;
             List<BlockLocation> emptyBlockLocation = new List<BlockLocation>();
 
-            for(var i = 0; i < numberBlocks.GetLength(0); i++)
+            for(var xLocation = 0; xLocation < numberBlocks.GetLength(0); xLocation++)
             {
-                for (var j = 0; j < numberBlocks.GetLength(1); j++)
+                for (var yLocation = 0; yLocation < numberBlocks.GetLength(1); yLocation++)
                 {
-                    if (string.IsNullOrEmpty(numberBlocks[i, j]))
+                    if (string.IsNullOrEmpty(numberBlocks[xLocation, yLocation]))
                     {
-                        emptyBlockLocation.Add(new BlockLocation { X = i, Y = j });
+                        emptyBlockLocation.Add(new BlockLocation { X = xLocation, Y = yLocation });
                     }
                 }
             }
@@ -141,13 +214,13 @@ namespace CSharp_2048
             var createNumberString = string.Empty;
             if(createNumberPercentage <= 80)
             {
-                createNumberString = "2";
-                numberBlocks[blockLocation.X, blockLocation.Y] = "2";
+                createNumberString = two;
+                numberBlocks[blockLocation.X, blockLocation.Y] = two;
             }
             else
             {
-                createNumberString = "4";
-                numberBlocks[blockLocation.X, blockLocation.Y] = "4";
+                createNumberString = four;
+                numberBlocks[blockLocation.X, blockLocation.Y] = four;
             }
 
 
@@ -219,22 +292,22 @@ namespace CSharp_2048
 
             if (e.KeyCode == Keys.Up)
             {
-                MoveBlock(KeyMoveStatus.UP);
+                MoveBlocks(KeyMoveStatus.UP);
                 CreateRandomBlock();
             }
             else if (e.KeyCode == Keys.Down)
             {
-                MoveBlock(KeyMoveStatus.DOWN);
+                MoveBlocks(KeyMoveStatus.DOWN);
                 CreateRandomBlock();
             }
             else if (e.KeyCode == Keys.Left)
             {
-                MoveBlock(KeyMoveStatus.LEFT);
+                MoveBlocks(KeyMoveStatus.LEFT);
                 CreateRandomBlock();
             }
             else if (e.KeyCode == Keys.Right)
             {
-                MoveBlock(KeyMoveStatus.RIGHT);
+                MoveBlocks(KeyMoveStatus.RIGHT);
                 CreateRandomBlock();
             }
         }
@@ -245,22 +318,22 @@ namespace CSharp_2048
 
             if (e.KeyCode == Keys.Up)
             {
-                MoveBlock(KeyMoveStatus.UP);
+                MoveBlocks(KeyMoveStatus.UP);
                 CreateRandomBlock();
             }
             else if (e.KeyCode == Keys.Down)
             {
-                MoveBlock(KeyMoveStatus.DOWN);
+                MoveBlocks(KeyMoveStatus.DOWN);
                 CreateRandomBlock();
             }
             else if (e.KeyCode == Keys.Left)
             {
-                MoveBlock(KeyMoveStatus.LEFT);
+                MoveBlocks(KeyMoveStatus.LEFT);
                 CreateRandomBlock();
             }
             else if (e.KeyCode == Keys.Right)
             {
-                MoveBlock(KeyMoveStatus.RIGHT);
+                MoveBlocks(KeyMoveStatus.RIGHT);
                 CreateRandomBlock();
             }
         }
