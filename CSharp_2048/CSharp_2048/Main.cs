@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -28,10 +29,10 @@ namespace CSharp_2048
         private bool isFormMaximized;
 
         // 좌표의 정보를 가지고 있는 전역변수
-        private string[,] numberBlocks = new string[4,4];
+        private string[,] numberBlocks = new string[4, 4];
 
         // 블럭 위치를 나타내는 구조체
-        private struct BlockLocation{
+        private struct BlockLocation {
             public int X;
             public int Y;
         }
@@ -101,54 +102,106 @@ namespace CSharp_2048
             }
         }
 
+        /// <summary>
+        /// 메모리 블록상태를 콘솔로 보기 위해 생성
+        /// </summary>
+        private void ConsoleWriteBlocksMemory()
+        {
+            Debug.WriteLine("=========================================");
+            for (var xLocation = 0; xLocation < numberBlocks.GetLength(0); xLocation++)
+            {
+                for (var yLocation = 0; yLocation < numberBlocks.GetLength(1); yLocation++)
+                {
+                    Debug.Write($"[{numberBlocks[yLocation, xLocation] ?? "0"}] ");
+                }
+                Debug.WriteLine("");
+            }
+            Debug.WriteLine("=========================================");
+        }
+
+        /// <summary>
+        /// 사용자가 입력한 방향에 따라 블럭을 계산
+        /// </summary>
+        /// <param name="keyMoveStatus"></param>
         private void MoveBlocks(KeyMoveStatus keyMoveStatus)
         {
             switch (keyMoveStatus)
             {
                 case KeyMoveStatus.UP:
                     {
-                        List<BlockLocation> blockLocations = new List<BlockLocation>();
                         for (var xLocation = 0; xLocation < numberBlocks.GetLength(0); xLocation++)
                         {
-                            for (var yLocation = 0; yLocation < numberBlocks.GetLength(1) - 1; yLocation++)
+                            var blockList = new List<int>();
+
+                            for (var yLocation = 0; yLocation < numberBlocks.GetLength(1); yLocation++)
                             {
                                 var block = int.Parse(numberBlocks[xLocation, yLocation] ?? zero);
+                                blockList.Add(block);
+                                //if (block is 0)
+                                //{
+                                //    continue;
+                                //}
 
-                                if(block is 0)
+                                //for (var nextYLocation = yLocation + 1; nextYLocation < numberBlocks.GetLength(1) - 1; nextYLocation++)
+                                //{
+                                //    var nextBlock = int.Parse(numberBlocks[xLocation, nextYLocation] ?? zero);
+                                //    var value = (nextBlock + block).ToString();
+
+                                //    if (nextBlock is 0)
+                                //    {
+                                //        continue;
+                                //    }
+
+                                //    // 포커스를 합치는게 아닌,
+                                //    // 이동하는것을 포커스로 둬야 할듯
+                                //    // 블록이 한개만 있을때도 무조건 이동 필요
+                                //    if (nextBlock.Equals(block))
+                                //    {
+                                //        numberBlocks[xLocation, yLocation] = null;
+                                //        numberBlocks[xLocation, nextYLocation] = null;
+
+                                //        for (var emptyYLocation = 0; emptyYLocation <= yLocation; emptyYLocation++)
+                                //        {
+                                //            if (numberBlocks[xLocation, emptyYLocation] is null)
+                                //            {
+                                //                numberBlocks[xLocation, emptyYLocation] = value;
+                                //                break;
+                                //            }
+                                //        }
+
+                                //        break;
+                                //    }
+
+                                //}
+                            }
+
+                            for(var i = 0; i < blockList.Count; i++)
+                            {
+                                if(i != blockList.Count - 1)
                                 {
-                                    continue;
-                                }
-
-                                for (var nextYLocation = yLocation + 1; nextYLocation < numberBlocks.GetLength(1) - 1; nextYLocation++)
-                                {
-                                    var nextBlock = int.Parse(numberBlocks[xLocation, nextYLocation] ?? zero);
-                                    var value = (nextBlock + block).ToString();
-
-                                    if(nextBlock is 0)
+                                    if (blockList[i].Equals(blockList[i + 1]))
                                     {
-                                        continue;
+                                        blockList[i] += blockList[i + 1];
+                                        blockList[i + 1] = 0;
                                     }
 
-                                    // 포커스를 합치는게 아닌,
-                                    // 이동하는것을 포커스로 둬야 할듯
-                                    if (nextBlock.Equals(block))
+                                    for (var j = i; j < blockList.Count; j++)
                                     {
-                                        numberBlocks[xLocation, yLocation] = null;
-                                        numberBlocks[xLocation, nextYLocation] = null;
-
-                                        for (var zeroYLocation = 0; zeroYLocation <= yLocation; zeroYLocation++)
+                                        if (j != blockList.Count - 1)
                                         {
-                                            if(numberBlocks[xLocation, zeroYLocation] is null)
+                                            if (blockList[j] is 0)
                                             {
-                                                numberBlocks[xLocation, zeroYLocation] = value;
-                                                break;
+                                                blockList[j] = blockList[j + 1];
+                                                blockList[j + 1] = 0;
                                             }
                                         }
-
-                                        break;
                                     }
-                                    
                                 }
+                            }
+
+                            for (var yLocation = 0; yLocation < numberBlocks.GetLength(1); yLocation++)
+                            {
+                                numberBlocks[xLocation, yLocation] = blockList[yLocation] is 0 ? null : blockList[yLocation].ToString();
                             }
                         }
 
@@ -173,16 +226,38 @@ namespace CSharp_2048
                         break;
                     }
             }
-            
-        }
-
-        private void RefreshBlocks()
-        {
-
         }
 
         /// <summary>
-        /// 랜덤한 위치에 블럭을 생성하는 메서드
+        /// 계산된 블럭에 맞게 화면을 새로고침
+        /// </summary>
+        private void RefreshBlocks()
+        {
+            for (var i = 0; i < tlp_numberBoard.ColumnCount; i++)
+            {
+                for (var j = 0; j < tlp_numberBoard.RowCount; j++)
+                {
+                    tlp_numberBoard.Controls.Remove(tlp_numberBoard.GetControlFromPosition(i, j));
+                }
+            }
+
+            for (var xLocation = 0; xLocation < numberBlocks.GetLength(0); xLocation++)
+            {
+                for (var yLocation = 0; yLocation < numberBlocks.GetLength(1) ; yLocation++)
+                {
+                    if(!(numberBlocks[xLocation, yLocation] is null))
+                    {
+                        var btn = new Button() { Text = numberBlocks[xLocation, yLocation], Dock = DockStyle.Fill };
+                        tlp_numberBoard.Controls.Add(btn);
+                        tlp_numberBoard.SetCellPosition(btn, new TableLayoutPanelCellPosition(xLocation, yLocation));
+                    }
+                }
+            }
+        }
+    
+
+        /// <summary>
+        /// 랜덤한 위치에 블럭을 생성
         /// </summary>
         /// <returns></returns>
         private bool CreateRandomBlock()
@@ -317,6 +392,8 @@ namespace CSharp_2048
         private void Main_KeyUp(object sender, KeyEventArgs e)
         {
             Console.WriteLine(e.KeyValue);
+            ConsoleWriteBlocksMemory();
+
 
             if (e.KeyCode == Keys.Up)
             {
@@ -338,6 +415,10 @@ namespace CSharp_2048
                 MoveBlocks(KeyMoveStatus.RIGHT);
                 CreateRandomBlock();
             }
+
+            RefreshBlocks();
+            ConsoleWriteBlocksMemory();
+
         }
     }
 }
